@@ -1,0 +1,77 @@
+---
+title: "lab4-rmarkdown-class"
+author: "Runhan Chen"
+date: "2023-02-15"
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# 1 Load and check data
+
+1.  Load tidyverse library. Set the chunk option message=FALSE to avoid
+    the loading messages to show up in the document. (See
+    <https://faculty.washington.edu/otoomet/info201-book/>
+    r-markdown.html#rmarkdown-syntax-chunk-options).
+
+```{r}
+library(tidyverse)
+```
+
+2.  Load the dataset. Remember that the working directory of the
+    knitting process is the same as the folder where your rmarkdown file
+    is located As above, ensure that the informative messages are not
+    displayed in the document.
+
+```{r}
+# income-height data 
+ih <- read_delim("income-height.csv.bz2")
+```
+
+3.  How many observations and variables do you have in this dataset?
+    Answer in a complete sentence like "This dataset contains 4 rows and
+    2 columns" using the inline code chunks.
+
+This dataset contians `r nrow(ih)`and `r ncol(ih)`.
+
+4.  List the variable names of the dataset, separated by comma, using a complete sentence. Hint: check out function str_flatten_comma() in stringr library.
+
+The variables in this dataset are: 
+`r str_flatten_comma(names(ih), last = ", and ")`. 
+
+
+5.  How many missings are there in variables income, height, age and sex? Again, answer in a complete sentence, injecting the numbers into the text like There are 5 missings in variable "age", 4 missings in .... 2 Do taller people earn more?
+
+Missing values: 
+*income variable*: `r sum(is.na(ih$income))`
+*height variable*: `r sum(is.na(ih$height))`
+
+
+
+
+
+5.  Find the average height in data. Answer in a complete sentence,
+    round the result as appro- priate. 1
+6.  Compute the average income for those who are shorter than the
+    average height and those who are taller than the average height. Do
+    this in a code chunk and show the code and the output. Comment your
+    finding in text below. Hint: you can use group_by(), grouping by a
+    logical condition like group_by(height \> avgHeight).
+7.  But does the difference also hold if we do it separately by sex? Now
+    compute average income separately for men and women who are shorter
+    and taller than the corresponding male and female average. Hint: you
+    may first group by sex, then compute for every person if they are
+    taller than the average, and then group again, this time by sex and
+    if they are taller. Finally use summarize() to compute the average
+    income.
+8.  Now comment your results in a sentence--something like "short women
+    earn \$27,000 while tall women earn \$32,000 in average...".
+    However, the numbers should be extracted from your results above
+    using inline code chunks, not just copied in the text. Do not forget
+    to round the numbers as appropriate! You may also check out the
+    function prettyNum for better printing of large numbers.
+9.  Make a scatterplot where you plot height versus income. Do not
+    forget to add informative labels. Comment the plot in text. Hint: if
+    using base-R plotting then you can use pch="." to make the
+    scatterplot of dots, not circles.
